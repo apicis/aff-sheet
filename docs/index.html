@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <!-- Meta tags for social media banners, these should be filled in appropriatly as they are your "business card" -->
+    <!-- Replace the content tag with appropriate information -->
+    <!--  <meta name="description" content="DESCRIPTION META TAG">-->
+    <!--  <meta property="og:title" content="SOCIAL MEDIA TITLE TAG"/>-->
+    <!--  <meta property="og:description" content="SOCIAL MEDIA DESCRIPTION TAG TAG"/>-->
+    <meta property="og:url" content="URL OF THE WEBSITE"/>
+    <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X630-->
+    <!--  <meta property="og:image" content="image/your_banner_image.png" />-->
+    <!--  <meta property="og:image:width" content="1200"/>-->
+    <!--  <meta property="og:image:height" content="630"/>-->
+
+
+    <!--  <meta name="twitter:title" content="TWITTER BANNER TITLE META TAG">-->
+    <!--  <meta name="twitter:description" content="TWITTER BANNER DESCRIPTION META TAG">-->
+    <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X600-->
+    <!--  <meta name="twitter:image" content="images/your_twitter_banner_image.png">-->
+    <!--  <meta name="twitter:card" content="summary_large_image">-->
+    <!-- Keywords for your paper to be indexed by-->
+    <meta name="keywords"
+          content="Affordance, Benchmark, Transparency">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <title>Reproducible Multimodal Affordance Prediction</title>
+    <!--    <link rel="icon" type="image/x-icon" href="images/favicon.ico">-->
+    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/bulma.min.css">
+    <link rel="stylesheet" href="css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="css/bulma-slider.min.css">
+    <link rel="stylesheet" href="css/fontawesome.all.min.css">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    <link rel="stylesheet" href="css/index.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+    <script defer src="js/fontawesome.all.min.js"></script>
+    <script src="js/bulma-carousel.min.js"></script>
+    <script src="js/bulma-slider.min.js"></script>
+    <script src="js/index.js"></script>
+</head>
+<body>
+
+
+<section class="hero">
+    <div class="hero-body">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered">
+                <div class="column has-text-centered">
+                    <h1 class="title is-1 publication-title"> Reproducible Multimodal Affordance Prediction</h1>
+                    <div class="is-size-5 publication-authors">
+                        <!-- Paper authors -->
+                        <span class="author-block">
+                        <a href="https://apicis.github.io/" target="_blank">Tommaso Apicella</a><sup>1</sup>,</span>
+                        <span class="author-block">
+                        <a href="https://kerolex.github.io/" target="_blank">Alessio Xompero</a><sup>2</sup>,</span>
+                        <span class="author-block">
+                        <a href="https://people.epfl.ch/andrea.cavallaro/?lang=en" target="_blank">Andrea Cavallaro</a><sup>3</sup>
+                        </span>
+                    </div>
+
+                    <div class="is-size-5 publication-authors">
+                    <span class="author-block"> Istituto Italiano di Tecnologia<sup>1</sup><br>
+                      Independent Researcher<sup>2</sup><br>
+                      École Polytechnique Fédérale de Lausanne<sup>3</sup></span>
+                    </div>
+
+                    <div class="column has-text-centered">
+                        <div class="publication-links">
+                            <!-- Arxiv PDF link -->
+                            <span class="link-block">
+                                                        <span class="external-link button is-normal is-rounded is-dark is-disabled"
+                                                                 aria-disabled="true">
+                              <span class="icon">
+                                <i class="ai ai-arxiv"></i>
+                              </span>
+                              <span>arXiv (coming soon)</span>
+                                                        </span>
+                            </span>
+
+                            <!-- Github link -->
+                            <span class="link-block">
+                            <span class="external-link button is-normal is-rounded is-dark is-disabled"
+                                aria-disabled="true">
+                            <span class="icon">
+                                <i class="fab fa-github"></i>
+                            </span>
+                            <span>Repository (coming soon)</span>
+                            </span>
+                            </span>
+                            
+                            <!-- Gradio app link -->
+                            <span class="link-block">
+                            <span class="external-link button is-normal is-rounded is-dark is-disabled"
+                                aria-disabled="true">
+                            <span class="icon">
+                                <i class="far fa-file-alt"></i>
+                            </span>
+                            <span>Affordance Sheet tool (coming soon)</span>
+                            </span>
+                            </span>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</section>
+
+<!-- Paper abstract -->
+<section class="section hero is-light">
+    <div class="container is-max-desktop">
+        <div class="columns is-centered has-text-centered">
+            <div class="column is-four-fifths">
+                <h2 class="title is-3">Abstract</h2>
+                <div class="content has-text-justified">
+                    <p>
+                       Affordance prediction is the identification of potential actions an agent 
+                       can perform on a target object from multimodal inputs. However, affordance 
+                       prediction methods are difficult to evaluate and compare due to heterogeneous 
+                       problem formulations, inconsistent dataset annotations, incomplete reporting 
+                       of experimental protocols, and limited information about deployment conditions. 
+                       These limitations challenge fair benchmarking and performance comparison beyond 
+                       controlled laboratory settings. To promote transparency, we propose the Affordance 
+                       Sheet, a unified documentation detailing task formulation with its input modalities,
+                       model architectures and training information, datasets, and experimental protocols. 
+                       Affordance Sheets enable reproducible benchmarking and more reliable evaluation of 
+                       affordance models for real-world scenarios, including validations with simulated or 
+                       real-world robot, generalisation to novel conditions, robustness to occlusions, and 
+                       human safety.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End paper abstract -->
+
+<section class="section is-small">
+    <div class="container is-max-desktop">
+        <div class="columns is-centered">
+            <div class="column is-full">
+                <div class="content">
+                    <h2 class="title is-3">Motivation</h2>
+                    <div class="level-set has-text-justified">
+                    <p> <b>Evaluation and reproducibility gaps:</b> Affordance prediction models are difficult to compare fairly due to fragmented problem formulations,
+                    inconsistent dataset annotations, incomplete reporting of experimental setups, and limited access to code and model weights.</p>
+
+                    <p> <b>Limited real-world validation:</b> Existing methods are mostly tested in controlled laboratory environments, leaving their generalization 
+                        to novel conditions, robustness against occlusions, and human safety in physical interactions largely unvalidated.</p>
+
+                    <p> <b>Importance of affordance reproducibility:</b> Non-reproducible results compromise robustness to occlusions, safety, and generalization to
+                         diverse real-world scenarios. Ensuring reproducibility therefore supports both the credibility of research findings and the development of 
+                         reliable systems capable of consistent and safe interaction with humans in real-world environments.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section is-small my-light">
+    <div class="container is-max-desktop">
+        <div class="columns is-centered">
+            <div class="column is-full">
+                <div class="content">
+                    <h2 class="title is-3">Reproducibility in visual affordance</h2>
+                    <div class="level-set has-text-justified">
+                        <p>
+                            Reproducibility challenges (RCs) in different redefinitions of visual affordance prediction
+                            include: data availability for benchmarking (RC1); availability of a method's implementation
+                            (RC2); availability of the trained model (RC3); details of the experimental setups (RC4);
+                            and details of the performance measures used for the evaluation (RC5).
+                        </p>
+                    </div>
+                </div>
+                <br>
+                <div class="columns is-centered">
+                    <img src="assets/rc.svg" alt="Research challenges" width="80%"
+                         class="center-image"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section is-small">
+    <div class="container is-max-desktop">
+        <div class="columns is-centered">
+            <div class="column is-full">
+                <div class="content">
+                    <h2 class="title is-3">Affordance sheet</h2>
+                    <div class="level-set has-text-justified">
+                        <p>
+                            To promote reproducibility in affordance prediction and overcome reproducibility challenges,
+                            we propose the Affordance Sheet, an organised collection of good practices that can
+                            facilitate fair comparisons and the
+                            development of new solutions (see the Table below). Our Affordance Sheet includes <a
+                                href="https://arxiv.org/abs/1810.03993"> Model
+                            Cards</a> and adds sections that complement the released information.
+                        </p>
+                    </div>
+                </div>
+                <br>
+                <img src="assets/affordance_sheet.svg" alt="Affordance sheet" width="80%"
+                         class="center-image"/>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section is-small my-light" id="BibTeX">
+   <div class="container is-max-desktop">
+               <div class="content">
+                   <h2 class="title is-3">Reference</h2>
+                   <div class="text">
+                       If you use the information in the paper please cite the following reference<br>
+<pre><code>@inproceedings{apicella2026reproducible,
+title={Reproducible Multimodal Affordance Prediction},
+author={Apicella, Tommaso and Xompero, Alessio and Cavallaro, Andrea},
+booktitle={European Conference on Computer Vision Workshops},
+year={2026},
+}</code></pre>
+            </div>
+            <br>
+            <p>If you have any further enquiries, question, or comments, please open an issue on the Github repository page.</p>
+        </div>
+   </div>
+</section>
+
+</section>
+<footer class="footer">
+    <div class="container">
+        <div class="columns is-centered">
+            <div class="column is-8">
+                <div class="content">
+                    <p>
+                        This page was built using the <a
+                            href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic
+                        Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io"
+                                                                                target="_blank">Nerfies</a> project
+                        page.
+                        You are free to borrow the source code of this website, we just ask that you link back to this
+                        page in the footer. <br> This website is licensed under a <a rel="license"
+                                                                                     href="http://creativecommons.org/licenses/by-sa/4.0/"
+                                                                                     target="_blank">Creative
+                        Commons Attribution-ShareAlike 4.0 International License</a>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Statcounter tracking code -->
+
+<!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
+
+<!-- End of Statcounter Code -->
+
+</body>
+</html>
