@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Affordance Sheet</title>
+    <link rel="stylesheet" href="css/aff_sheet.css">
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+</head>
+
+<body>
+
+    <!-- ================================
+         NAVIGATION
+    ================================= -->
+
+    <header class="navbar">
+
+        <div class="logo-text">
+
+            <strong>Affordance Sheet</strong>
+
+            <span>Reproducible Multimodal Affordance Prediction</span>
+
+        </div>
+
+        <nav class="nav-links">
+
+            <a href="index.html">Project page</a>
+
+            <a href="aff_sheet.html#about">Why</a>
+
+            <a href="submit.html">Submit</a>
+
+            <a href="explore.html">Explore</a>
+
+        </nav>
+
+    </header>
+
+    <!-- ================================
+         MAIN
+    ================================= -->
+
+    <main class="create-page">
+
+        <div class="create-container">
+
+            <header class="create-header">
+
+                <span class="create-label">
+                    Affordance Sheet
+                </span>
+
+                <h1>
+                    Create a new sheet.
+                </h1>
+
+                <p>
+                    Document a multimodal affordance prediction
+                    method using the standardized Affordance
+                    Sheet framework.
+                </p>
+
+            </header>
+
+            <!-- =================================
+                 FORM
+            ================================= -->
+
+            <form
+                id="affordance-form"
+                novalidate
+            >
+
+                <div id="form-container"></div>
+
+                <!-- ============================
+                     SUBMISSION
+                ============================= -->
+
+                <div class="form-submit">
+
+                    <div class="turnstile-wrap">
+
+                        <div
+                            class="cf-turnstile"
+                            data-sitekey="0x4AAAAAAEaknU3MWLTghPHd"
+                        ></div>
+
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="button button-primary"
+                    >
+
+                        Submit Affordance Sheet
+
+                        <span>
+                            →
+                        </span>
+
+                    </button>
+
+                </div>
+
+                <div
+                    id="form-message"
+                    class="form-message"
+                ></div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+    <!-- ================================
+         FOOTER
+    ================================= -->
+
+    <footer>
+
+        <div class="container footer-content">
+
+            <span>
+                Affordance Sheet
+            </span>
+
+            <span>
+                Reproducible Multimodal Affordance Prediction
+            </span>
+
+        </div>
+
+    </footer>
+
+    <!-- =================================
+         YAML PARSER
+    ================================== -->
+
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4/dist/js-yaml.min.js"></script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+    <!-- =================================
+         FORM GENERATOR
+    ================================== -->
+
+    <script src="js/form.js"></script>
+
+</body>
+
+</html>
