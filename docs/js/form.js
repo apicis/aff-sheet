@@ -1852,10 +1852,15 @@ function setupFormSubmission() {
 
                 updateSubmitButtonState();
 
-                form.scrollIntoView === undefined ||
+                if (
+                    typeof message.scrollIntoView === "function"
+                ) {
+
                     message.scrollIntoView(
                         { behavior: "smooth", block: "nearest" }
                     );
+
+                }
 
             }
 
