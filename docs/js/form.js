@@ -1735,12 +1735,18 @@ function setupFormSubmission() {
 
                     const validationDetails =
                         result.errors
-                            ? `<pre>${JSON.stringify(result.errors, null, 2)}</pre>`
+                            ? JSON.stringify(result.errors, null, 2)
                             : "";
 
-                    throw new Error(
-                        `${result.error || "Submission failed."}${validationDetails}`
-                    );
+                    const submissionError =
+                        new Error(
+                            result.error || "Submission failed."
+                        );
+
+                    submissionError.validationDetails =
+                        validationDetails;
+
+                    throw submissionError;
 
                 }
 
@@ -1782,8 +1788,43 @@ function setupFormSubmission() {
             }
             catch (error) {
 
-                message.innerHTML =
-                    `<p><strong>Submission failed.</strong></p><p>${error.message}</p>`;
+                const heading =
+                    document.createElement("p");
+
+                const headingText =
+                    document.createElement("strong");
+
+                headingText.textContent =
+                    "Submission failed.";
+
+                heading.appendChild(
+                    headingText
+                );
+
+                const errorMessage =
+                    document.createElement("p");
+
+                errorMessage.textContent =
+                    error.message;
+
+                message.replaceChildren(
+                    heading,
+                    errorMessage
+                );
+
+                if (error.validationDetails) {
+
+                    const errorDetails =
+                        document.createElement("pre");
+
+                    errorDetails.textContent =
+                        error.validationDetails;
+
+                    message.appendChild(
+                        errorDetails
+                    );
+
+                }
 
                 message.classList.remove(
                     "pending"
