@@ -1,0 +1,381 @@
+form:
+  title: "Create Affordance Sheet"
+  description: "Document a visual affordance prediction method."
+
+sections:
+  - id: email
+    title: "👤 User email"
+    description: "The email address of the user submitting the affordance sheet. This will be used to contact you if there are any questions about your submission."
+
+    fields:
+
+      - id: user_email
+        label: "Email"
+        type: email
+        required: true
+        placeholder: "e.g. user@example.com"
+
+
+  - id: overview
+    title: "📄 Overview"
+    description: "General information about the affordance sheet."
+
+    fields:
+
+      - id: model_name
+        label: "Model name"
+        type: text
+        required: true
+        placeholder: "e.g. ACANet"
+
+      - id: access_date
+        label: "Access date"
+        type: date
+        required: true
+
+      - id: publication_doi
+        label: "Publication DOI"
+        type: url
+        required: true
+        placeholder: "https://doi.org/..."
+
+
+  - id: formulation
+    title: "🧩 Affordance formulation"
+    description: "Select the affordance task type(s) and input modalities. Multiple selections are allowed."
+
+    fields:
+
+      - id: aff_tasks
+        label: "Affordance task"
+        type: pills
+        options:
+          - Functional classification
+          - Functional segmentation
+          - Hand pose estimation
+          - Hand interaction synthesis
+
+      - id: modalities
+        label: "Modalities"
+        type: pills
+        options:
+          - Image
+          - Video
+          - Depth
+          - Language
+          - Point cloud
+          - Audio
+          - Tactile
+          - Proprioception
+
+      - id: aff_human_presence
+        label: "Human presence"
+        type: checkbox
+
+
+  - id: datasets
+    title: "🗃️ Datasets"
+    description: "Dataset availability and licensing. The record link should point to a repository that favours long-term persistence and accessibility, such as Zenodo."
+    repeatable: true
+    repeat_button_label: "+ Add another dataset"
+    remove_button_label: "Remove dataset"
+
+    fields:
+
+      - id: ds_name
+        label: "Dataset name"
+        type: text
+        required: true
+        placeholder: "CHOC-AFF"
+
+      - id: ds_record_link
+        label: "Dataset link"
+        type: url
+        placeholder: "https://doi.org/10.5281/zenodo.xxxxx"
+
+      - id: ds_licence
+        label: "Dataset license"
+        type: select
+        required: true
+        options:
+          - Unlicense
+          - CC0 1.0
+          - CC BY 4.0
+          - CC BY-SA 4.0
+          - CC BY-NC 4.0
+          - CC BY-NC-SA 4.0
+          - CC BY-ND 4.0
+          - CC BY-NC-ND 4.0
+          - ODC-By-1.0
+          - ODbL-1.0
+          - PDDL-1.0
+          - CDLA-Permissive-2.0
+          - CDLA-Sharing-1.0
+          - CDLA-Sharing-2.0
+          - Apache-2.0
+          - MIT
+          - GPL-3.0
+          - Data use agreement/restricted
+
+        
+      - id: ds_datasheet
+        label: "Dataset datasheet"
+        type: checkbox
+
+      - id: ds_datasheet_url
+        label: "Dataset datasheet link"
+        type: url
+        placeholder: "https://..."
+        show_if: "ds_datasheet"
+
+  - id: method
+    title: "🔬 Proposed method"
+    description: "Method artefacts, code, weights, and associated model card. The record link should include trained model weights in a persistent repository."
+
+    fields:
+
+      - id: pm_record_link
+        label: "Weights link"
+        type: url
+        required: true
+        placeholder: "Weights URL or DOI"
+
+      - id: pm_code_link
+        label: "Code link"
+        type: url
+        required: true
+        placeholder: "Repository URL and commit/tag"
+
+      - id: pm_weights_license
+        label: "Weights license"
+        type: select
+        required: true
+        options:
+          - Unlicense
+          - Apache-2.0
+          - CC0 1.0
+          - CC BY 4.0
+          - CC BY-SA 4.0
+          - CC BY-NC 4.0
+          - CC BY-NC-SA 4.0
+          - CC BY-ND 4.0
+          - CC BY-NC-ND 4.0
+          - CDLA-Permissive-2.0
+          - CDLA-Sharing-1.0
+          - CDLA-Sharing-2.0
+          - Data use agreement/restricted
+          - GPL-3.0
+          - MIT
+          - ODC-By-1.0
+          - ODbl-1.0
+          - PDDL
+
+      - id: pm_code_license
+        label: "Code license"
+        type: select
+        required: true
+        options:
+          - Unlicense
+          - AFL-3.0
+          - Apache-2.0
+          - Artistic-2.0
+          - BSL-1.0
+          - MIT
+          - BSD-2-Clause
+          - BSD-3-Clause
+          - BSD-3-Clause-Clear
+          - BSD-4-Clause
+          - CC
+          - CC0-1.0
+          - CC-BY-4.0
+          - CC-BY-SA-4.0
+          - ECL-2.0
+          - EPL-1.0
+          - EPL-2.0
+          - EUPL-1.1
+          - GPL
+          - GPL-2.0
+          - GPL-3.0
+          - LGPL
+          - LGPL-2.1
+          - LGPL-3.0
+          - AGPL-3.0
+          - ISC
+          - LPPL-1.3c
+          - MS-PL
+          - MPL-2.0
+          - OSL-3.0
+          - PostgreSQL
+          - OFL-1.1
+          - NCSA
+          - Zlib
+          - 0BSD
+          - WTFPL
+
+      - id: pm_model_card
+        label: "Model card"
+        type: checkbox
+
+      - id: pm_model_card_url
+        label: "Model card link"
+        type: url
+        placeholder: "https://..."
+        show_if: "pm_model_card"
+
+
+  - id: experimental_setup
+    title: "⚙️ Experimental setup"
+    description: "Data splits, hyperparameters, and pre-processing."
+
+    fields:
+
+      - id: es_splits_df
+        label: "Data splits"
+        type: table
+        headers:
+          - Set
+          - Samples
+        rows:
+          - ["Training", ""]
+          - ["Validation", ""]
+          - ["Testing", ""]
+
+      - id: es_hp_df
+        label: "Hyperparameters"
+        type: table
+        headers:
+          - Name
+          - Value
+        rows:
+          - ["Epochs", ""]
+          - ["Iterations", ""]
+          - ["Batch size", ""]
+          - ["Learning rate", ""]
+          - ["Schedule", ""]
+          - ["Patience", ""]
+          - ["Optimizer", ""]
+          - ["Momentum", ""]
+          - ["Weight decay", ""]
+      
+      - id: es_augmentations_df
+        label: "Data Augmentations"
+        type: table
+        headers:
+          - Augmentation
+          - Range
+          - Probability
+        rows:
+          - ["Resize", "", ""]
+          - ["Flip", "", ""]
+          - ["Scale", "", ""]
+          - ["Rotation", "", ""]
+          - ["Color jitter", "", ""]
+          - ["Gaussian noise", "", ""]
+          - ["Blur", "", ""]
+
+      - id: es_resize
+        label: "Preprocessing"
+        type: table
+        headers:
+          - Name
+          - Value
+        rows:
+          - ["Input size", ""]
+          - ["Resize", ""]
+          - ["Normalization", ""]
+
+  - id: evaluation
+    title: "📈 Performance measures"
+    description: "Metrics description, formulation, and known limitations."
+    repeatable: true
+    repeat_button_label: "+ Add another metric"
+    remove_button_label: "Remove metric"
+
+    fields:
+
+      - id: perf_description
+        label: "Metric"
+        type: textarea
+        required: true
+        placeholder: "Evaluation metric used"
+
+      - id: perf_formulation
+        label: "Definition"
+        type: textarea
+        required: true
+        placeholder: "Metric formulation or reference"
+
+      - id: perf_limitations
+        label: "Limitations"
+        type: textarea
+        required: true
+        placeholder: "Known assumptions and failure cases"
+
+
+  - id: validation
+    title: "🦾 Validation"
+    description: "Evaluation of affordance predictions varying settings, environments, and conditions. Potential deployment on physical or simulated robots."
+
+    fields:
+      - id: rv_deployment
+        label: "Robot deployment"
+        type: checkbox
+        nested_fields: true
+
+      - id: rv_platform
+        label: "Robot platform"
+        type: text
+        placeholder: "Robot model used for validation"
+        show_if: "rv_deployment"
+
+      - id: rv_end_effector
+        label: "Robot end-effector"
+        type: text
+        placeholder: "Gripper or manipulator description"
+        show_if: "rv_deployment"
+
+      - id: rv_setup
+        label: "Robot setup"
+        type: textarea
+        placeholder: "Simulation, laboratory or in-the-wild; robot task; success criteria"
+        show_if: "rv_deployment"
+
+      - id: rv_generalisation
+        label: "Generalisation"
+        type: textarea
+        required: false
+        placeholder: "Unseen/novel objects, different daylights, indoor/outdoor, clutter"
+
+      - id: rv_robustness
+        label: "Robustness"
+        type: textarea
+        required: false
+        placeholder: "Occlusions, illumination variations, sensors artifacts, adversarial perturbations"
+
+      - id: rv_safety
+        label: "Safety"
+        type: textarea
+        required: false
+        placeholder: "Standards/tests used to assess the human safety based on model predictions"
+
+
+  - id: feedback
+    title: "💬 Feedback"
+    description: "Help us improve the Affordance Sheet tool."
+
+    fields:
+
+      - id: fb_missing_fields
+        label: "Missing fields"
+        type: textarea
+        placeholder: "Any information you couldn't report with the current fields"
+
+      - id: fb_general_feedback
+        label: "General feedback"
+        type: textarea
+        placeholder: "Comments or suggestions about the Affordance Sheet tool"
+
+      - id: fb_rating
+        label: "Rating"
+        type: rating
+        max: 5
