@@ -3,18 +3,6 @@ form:
   description: "Document a visual affordance prediction method."
 
 sections:
-  - id: email
-    title: "👤 User email"
-    description: "The email address of the user submitting the affordance sheet. This will be used to contact you if there are any questions about your submission."
-
-    fields:
-
-      - id: user_email
-        label: "Email"
-        type: email
-        required: true
-        placeholder: "e.g. user@example.com"
-
 
   - id: overview
     title: "📄 Overview"
@@ -91,6 +79,7 @@ sections:
       - id: ds_record_link
         label: "Dataset link"
         type: url
+        required: false
         placeholder: "https://doi.org/10.5281/zenodo.xxxxx"
 
       - id: ds_licence
@@ -137,13 +126,13 @@ sections:
       - id: pm_record_link
         label: "Weights link"
         type: url
-        required: true
+        required: false
         placeholder: "Weights URL or DOI"
 
       - id: pm_code_link
         label: "Code link"
         type: url
-        required: true
+        required: false
         placeholder: "Repository URL and commit/tag"
 
       - id: pm_weights_license
@@ -189,6 +178,10 @@ sections:
           - CC0-1.0
           - CC-BY-4.0
           - CC-BY-SA-4.0
+          - CC-BY-NC-4.0
+          - CC-BY-NC-SA-4.0
+          - CC-BY-ND-4.0
+          - CC-BY-NC-ND-4.0
           - ECL-2.0
           - EPL-1.0
           - EPL-2.0
@@ -281,7 +274,6 @@ sections:
           - Value
         rows:
           - ["Input size", ""]
-          - ["Resize", ""]
           - ["Normalization", ""]
 
   - id: evaluation
@@ -302,13 +294,13 @@ sections:
       - id: perf_formulation
         label: "Definition"
         type: textarea
-        required: true
+        required: false
         placeholder: "Metric formulation or reference"
 
       - id: perf_limitations
         label: "Limitations"
         type: textarea
-        required: true
+        required: false
         placeholder: "Known assumptions and failure cases"
 
 

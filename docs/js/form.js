@@ -1,5 +1,16 @@
 const FORM_CONFIG_URL = "./config/fields.yaml";
 const SUBMISSION_API_URL = "https://affordance-sheet-api.t-apicella-cs.workers.dev";
+const REVIEW_MESSAGE =
+    "<p>Our team will check the form. Once this step is over, the Affordance Sheet will either be approved and published on the catalogue, or you will be asked to re-submit the form.</p>";
+
+function resetTurnstile() {
+    if (
+        window.turnstile &&
+        typeof window.turnstile.reset === "function"
+    ) {
+        window.turnstile.reset();
+    }
+}
 
 
 
@@ -106,7 +117,6 @@ function createField(field) {
 
     if (
         field.type === "text" ||
-        field.type === "email" ||
         field.type === "url" ||
         field.type === "number" ||
         field.type === "date"
@@ -904,9 +914,20 @@ function renderForm(config) {
             "form-container"
         );
 
+    const sectionFilter =
+        container.closest("form")?.dataset.formSections;
+
+    const sections = sectionFilter
+        ? sectionFilter.split(",").map(section => section.trim())
+        : config.sections.map(section => section.id);
+
 
     config.sections.forEach(
         section => {
+
+            if (!sections.includes(section.id)) {
+                return;
+            }
 
             container.appendChild(
                 createSection(section)
@@ -1698,7 +1719,7 @@ function setupFormSubmission() {
             submitButton.disabled = true;
 
             message.innerHTML =
-                "<p>Our team will check the form. Once this step is over, the Affordance Sheet will either be accepted and published on the catalogue, or you will be contacted via email to re-submit the form.</p>";
+                REVIEW_MESSAGE;
 
             message.classList.remove(
                 "success",
@@ -1711,9 +1732,14 @@ function setupFormSubmission() {
 
             try {
 
+                const submissionUrl =
+                    form.dataset.formSections === "feedback"
+                        ? `${SUBMISSION_API_URL}/explore`
+                        : SUBMISSION_API_URL;
+
                 const response =
                     await fetch(
-                        SUBMISSION_API_URL,
+                        submissionUrl,
                         {
                             method: "POST",
                             headers: {
@@ -1752,7 +1778,7 @@ function setupFormSubmission() {
 
                 message.innerHTML =
                     `<p><strong>Thank you for submitting the Affordance Sheet!</strong></p>
-                    <p>Our team will check the form. Once this step is over, the Affordance Sheet will either be accepted and published on the catalogue, or you will be contacted via email to re-submit the form.</p>`;
+                    ${REVIEW_MESSAGE}`;
 
                 message.classList.remove(
                     "pending"
@@ -1774,14 +1800,7 @@ function setupFormSubmission() {
                     }
                 );
 
-                if (
-                    window.turnstile &&
-                    typeof window.turnstile.reset === "function"
-                ) {
-
-                    window.turnstile.reset();
-
-                }
+                resetTurnstile();
 
                 updateSubmitButtonState();
 
@@ -1834,15 +1853,7 @@ function setupFormSubmission() {
                     "error"
                 );
 
-                // the consumed/expired token can't be reused on retry
-                if (
-                    window.turnstile &&
-                    typeof window.turnstile.reset === "function"
-                ) {
-
-                    window.turnstile.reset();
-
-                }
+                resetTurnstile();
 
             }
             finally {

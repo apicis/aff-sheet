@@ -1053,6 +1053,44 @@ footer {
         }
 
 
+        .explore-feedback {
+
+            margin-top: 70px;
+
+        }
+
+
+        .explore-feedback-header {
+
+            margin-bottom: 30px;
+
+        }
+
+
+        .explore-feedback-header h2 {
+
+            margin-bottom: 10px;
+
+            color: var(--dark);
+
+            font-size: 28px;
+
+            letter-spacing: -1px;
+
+        }
+
+
+        .explore-feedback-header p {
+
+            color: var(--text-secondary);
+
+            font-size: 15px;
+
+            line-height: 1.7;
+
+        }
+
+
         @media (max-width: 700px) {
 
             .explore-page {

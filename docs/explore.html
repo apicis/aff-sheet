@@ -76,6 +76,57 @@
 
             </section>
 
+            <section class="explore-feedback">
+
+                <header class="explore-feedback-header">
+
+                    <h2>Help us improve the Affordance Sheet.</h2>
+
+                    <p>
+                        Share missing fields, general feedback, or a rating
+                        for the tool.
+                    </p>
+
+                </header>
+
+                <form
+                    id="affordance-form"
+                    data-form-sections="feedback"
+                    novalidate
+                >
+
+                    <div id="form-container"></div>
+
+                    <div class="form-submit">
+
+                        <div class="turnstile-wrap">
+
+                            <div
+                                class="cf-turnstile"
+                                data-sitekey="0x4AAAAAAEaknU3MWLTghPHd"
+                            ></div>
+
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="button button-primary"
+                        >
+                            Send feedback
+                            <span>→</span>
+                        </button>
+
+                    </div>
+
+                    <div
+                        id="form-message"
+                        class="form-message"
+                    ></div>
+
+                </form>
+
+            </section>
+
         </div>
 
     </main>
@@ -99,6 +150,10 @@
         </div>
 
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4/dist/js-yaml.min.js"></script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <script src="js/form.js"></script>
 
 </body>
 
