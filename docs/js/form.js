@@ -2,6 +2,8 @@ const FORM_CONFIG_URL = "./config/fields.yaml";
 const SUBMISSION_API_URL = "https://affordance-sheet-api.t-apicella-cs.workers.dev";
 const REVIEW_MESSAGE =
     "<p>Our team will check the form. Once this step is over, the Affordance Sheet will either be approved and published on the catalogue, or you will be asked to re-submit the form.</p>";
+const EXPLORE_FEEDBACK_MESSAGE =
+    "<p><strong>Thanks for your feedback!</strong></p>";
 
 function resetTurnstile() {
     if (
@@ -1732,8 +1734,11 @@ function setupFormSubmission() {
 
             try {
 
+                const isExploreFeedback =
+                    form.dataset.formSections === "feedback";
+
                 const submissionUrl =
-                    form.dataset.formSections === "feedback"
+                    isExploreFeedback
                         ? `${SUBMISSION_API_URL}/explore`
                         : SUBMISSION_API_URL;
 
@@ -1777,8 +1782,10 @@ function setupFormSubmission() {
                 }
 
                 message.innerHTML =
-                    `<p><strong>Thank you for submitting the Affordance Sheet!</strong></p>
-                    ${REVIEW_MESSAGE}`;
+                    isExploreFeedback
+                        ? EXPLORE_FEEDBACK_MESSAGE
+                        : `<p><strong>Thank you for submitting the Affordance Sheet!</strong></p>
+                            ${REVIEW_MESSAGE}`;
 
                 message.classList.remove(
                     "pending"
