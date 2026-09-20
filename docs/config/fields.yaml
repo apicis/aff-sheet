@@ -352,22 +352,22 @@ sections:
 
 
   - id: feedback
-    title: "💬 Feedback"
-    description: "Help us improve the Affordance Sheet tool."
+    title: "💬 Explore feedback"
+    description: "Help us improve the Affordance Sheet database and browsing experience."
 
     fields:
 
       - id: fb_missing_fields
-        label: "Missing fields"
+        label: "Missing or unclear information"
         type: textarea
-        placeholder: "Any information you couldn't report with the current fields"
+        placeholder: "Entries, fields, or descriptions you could not find, or information that felt incomplete or unclear"
 
       - id: fb_general_feedback
-        label: "General feedback"
+        label: "Explore experience feedback"
         type: textarea
-        placeholder: "Comments or suggestions about the Affordance Sheet tool"
+        placeholder: "Comments about usability, search, filters, navigation, or database structure"
 
       - id: fb_rating
-        label: "Rating"
+        label: "Overall experience rating"
         type: rating
         max: 5

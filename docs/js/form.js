@@ -4,6 +4,8 @@ const REVIEW_MESSAGE =
     "<p>Our team will check the form. Once this step is over, the Affordance Sheet will either be approved and published on the catalogue, or you will be asked to re-submit the form.</p>";
 const EXPLORE_FEEDBACK_MESSAGE =
     "<p><strong>Thanks for your feedback!</strong></p>";
+const SENDING_FEEDBACK_MESSAGE =
+    "<p>Sending the feedback...</p>";
 
 function resetTurnstile() {
     if (
@@ -1721,7 +1723,9 @@ function setupFormSubmission() {
             submitButton.disabled = true;
 
             message.innerHTML =
-                REVIEW_MESSAGE;
+                isExploreFeedback
+                    ? SENDING_FEEDBACK_MESSAGE
+                    : REVIEW_MESSAGE;
 
             message.classList.remove(
                 "success",
