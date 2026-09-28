@@ -959,22 +959,27 @@ function addPill(container, value) {
 
     pill.dataset.value = value;
 
-    pill.innerHTML = `
-        <span>${value}</span>
-        <button type="button" class="pill-remove">×</button>
-    `;
+    const pillText = document.createElement("span");
+    pillText.textContent = value;
 
-    pill.querySelector(".pill-remove")
-        .addEventListener(
-            "click",
-            event => {
+    const removeButton = document.createElement("button");
+    removeButton.type = "button";
+    removeButton.className = "pill-remove";
+    removeButton.textContent = "×";
+    removeButton.setAttribute("aria-label", `Remove ${value}`);
 
-                event.preventDefault();
+    removeButton.addEventListener(
+        "click",
+        event => {
 
-                pill.remove();
+            event.preventDefault();
 
-            }
-        );
+            pill.remove();
+
+        }
+    );
+
+    pill.append(pillText, removeButton);
 
     pillsDisplay.appendChild(pill);
 
@@ -1586,25 +1591,13 @@ function setupFormSubmission() {
 
     };
 
-    form.addEventListener(
-        "input",
-        markTouched
-    );
+    const handleFormChange = event => {
+        markTouched(event);
+        updateSubmitButtonState();
+    };
 
-    form.addEventListener(
-        "change",
-        markTouched
-    );
-
-    form.addEventListener(
-        "input",
-        updateSubmitButtonState
-    );
-
-    form.addEventListener(
-        "change",
-        updateSubmitButtonState
-    );
+    form.addEventListener("input", handleFormChange);
+    form.addEventListener("change", handleFormChange);
 
     updateSubmitButtonState();
 
@@ -1614,6 +1607,9 @@ function setupFormSubmission() {
         async event => {
 
             event.preventDefault();
+
+            const isExploreFeedback =
+                form.dataset.formSections === "feedback";
 
 
             const message =
@@ -1661,11 +1657,21 @@ function setupFormSubmission() {
                             all.indexOf(label) === index
                     );
 
-                message.innerHTML =
-                    missingLabels.length
-                        ? `<p><strong>Please complete the following field(s) before submitting:</strong></p>
-                            <p>${missingLabels.join(", ")}</p>`
-                        : "<p>Please complete the required fields before submitting.</p>";
+                const prompt = document.createElement("p");
+                const promptText = document.createElement("strong");
+
+                if (missingLabels.length > 0) {
+                    promptText.textContent = "Please complete the following field(s) before submitting:";
+                    prompt.append(promptText);
+
+                    const labels = document.createElement("p");
+                    labels.textContent = missingLabels.join(", ");
+                    message.replaceChildren(prompt, labels);
+                }
+                else {
+                    prompt.textContent = "Please complete the required fields before submitting.";
+                    message.replaceChildren(prompt);
+                }
 
                 message.classList.add(
                     "error"
@@ -1737,9 +1743,6 @@ function setupFormSubmission() {
             );
 
             try {
-
-                const isExploreFeedback =
-                    form.dataset.formSections === "feedback";
 
                 const submissionUrl =
                     isExploreFeedback
