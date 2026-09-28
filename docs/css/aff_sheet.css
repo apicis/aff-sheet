@@ -1146,6 +1146,17 @@ footer {
         }
 
 
+        .catalogue-hint {
+
+            margin: 18px 24px 0;
+
+            color: var(--text-secondary);
+
+            font-size: 13px;
+
+        }
+
+
         .catalogue-cards {
 
             display: grid;
