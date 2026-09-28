@@ -1148,7 +1148,7 @@ footer {
 
         .catalogue-hint {
 
-            margin: 18px 24px 0;
+            margin: 8px 0 0;
 
             color: var(--text-secondary);
 
@@ -1722,7 +1722,7 @@ footer {
 
             align-items: center;
 
-            margin: 8px 0 0;
+            margin: 8px 24px 0;
 
             padding: 7px 12px;
 
