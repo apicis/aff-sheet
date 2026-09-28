@@ -61,20 +61,75 @@
 
             </header>
 
-            <!-- =================================
-                 AIRTABLE EMBED
-            ================================== -->
+            <section class="catalogue" aria-label="Affordance sheet catalogue">
 
-            <section class="airtable-wrapper">
+                <div class="catalogue-toolbar">
 
-                <iframe
-                    src="https://airtable.com/embed/appcbrqMelLFm0T2e/shrq7gx433xz5sWwV?viewControls=on"
-                    title="Affordance Sheet Airtable Database"
-                    loading="lazy"
-                    allowfullscreen>
-                </iframe>
+                    <div class="catalogue-filters">
+
+                        <label class="catalogue-search">
+                            <span>Search</span>
+                            <input id="catalogue-search" type="search" placeholder="Model, dataset, DOI...">
+                        </label>
+
+                        <label>
+                            <span>Affordance task</span>
+                            <select id="catalogue-task">
+                                <option value="">All tasks</option>
+                            </select>
+                        </label>
+
+                        <label>
+                            <span>Modality</span>
+                            <select id="catalogue-modality">
+                                <option value="">All modalities</option>
+                            </select>
+                        </label>
+
+                        <label>
+                            <span>Dataset</span>
+                            <select id="catalogue-dataset">
+                                <option value="">All datasets</option>
+                            </select>
+                        </label>
+
+                        <button id="catalogue-clear" class="button catalogue-clear" type="button">Clear filters</button>
+
+                    </div>
+
+                    <div class="catalogue-status" role="status">
+                        <span id="catalogue-count">Loading catalogue...</span>
+                        <button
+                            id="catalogue-download"
+                            class="button catalogue-download"
+                            type="button"
+                            aria-label="Download visible affordance sheets as JSON"
+                            title="Download visible affordance sheets as JSON"
+                            disabled
+                        >
+                            <span aria-hidden="true">↓</span>
+                        </button>
+                    </div>
+
+                    <div id="comparison-bar" class="comparison-bar" hidden>
+                        <span id="comparison-count">0 sheets selected</span>
+                        <button id="compare-sheets" class="button button-primary" type="button" disabled>Compare</button>
+                    </div>
+
+                </div>
+
+                <div class="catalogue-results-wrap" hidden>
+                    <div id="catalogue-results" class="catalogue-cards"></div>
+                </div>
 
             </section>
+
+            <dialog id="comparison-dialog" class="comparison-dialog">
+                <header>
+                    <button id="close-comparison" type="button" aria-label="Close comparison">×</button>
+                </header>
+                <div id="comparison-content" class="comparison-content"></div>
+            </dialog>
 
             <section class="explore-feedback">
 
@@ -154,6 +209,7 @@
     <script src="https://cdn.jsdelivr.net/npm/js-yaml@4/dist/js-yaml.min.js"></script>
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <script src="js/form.js"></script>
+    <script src="js/explore.js"></script>
 
 </body>
 
