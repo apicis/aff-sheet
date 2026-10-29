@@ -2,6 +2,10 @@ body {
   font-family: 'Noto Sans', sans-serif;
 }
 
+.container.is-max-desktop {
+  max-width: 1200px;
+}
+
 
 .footer .icon-link {
     font-size: 25px;

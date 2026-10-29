@@ -398,7 +398,7 @@ select {
 
 .hero-description {
 
-    max-width: 650px;
+    max-width: 850px;
 
     margin-bottom: 40px;
 
@@ -627,7 +627,7 @@ select {
 
 .about-heading h2 {
 
-    max-width: 500px;
+    max-width: 650px;
 
     font-size: 38px;
 
@@ -647,7 +647,7 @@ select {
 
 .about-description p {
 
-    max-width: 500px;
+    max-width: 650px;
 
     margin-bottom: 20px;
 
@@ -1009,7 +1009,7 @@ footer {
 
         .explore-header p {
 
-            max-width: 650px;
+            max-width: 850px;
 
             color: var(--text-secondary);
 
@@ -2089,7 +2089,7 @@ footer {
 
     width: min(
         100%,
-        900px
+        1100px
     );
 
     margin: 0 auto;
@@ -2145,13 +2145,29 @@ footer {
 
 .create-header p {
 
-    max-width: 620px;
+    max-width: 850px;
 
     color: var(--text-secondary);
 
     font-size: 16px;
 
     line-height: 1.7;
+
+}
+
+
+.discussion-note {
+
+    margin: 1em 0;
+
+}
+
+
+.discussion-note a {
+
+    font-weight: 700;
+
+    text-decoration: underline;
 
 }
 
