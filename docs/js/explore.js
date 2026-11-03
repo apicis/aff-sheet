@@ -215,6 +215,7 @@ const FORM_LABEL_TO_SCHEMA_FIELD = {
     "Affordance task": "aff_tasks",
     "Modalities": "modalities",
     "Human presence": "aff_human_presence",
+    "Datasets": "datasets",
     "Dataset name": "ds_name",
     "Dataset link": "ds_record_link",
     "Dataset license": "ds_licence",
@@ -230,6 +231,7 @@ const FORM_LABEL_TO_SCHEMA_FIELD = {
     "Hyperparameters": "es_hp_df",
     "Augmentations": "es_augmentations_df",
     "Preprocessing": "es_resize",
+    "Performance measures": "evaluation",
     "Metric": "perf_description",
     "Definition": "perf_formulation",
     "Limitations": "perf_limitations",
@@ -252,7 +254,7 @@ function convertToSchemaFormat(record) {
     const recordFields = record.fields || {};
     const flatSchema = {};
 
-    // Conditional field dependencies: if condition is false, dependent fields are not_applicable
+    // Field dependencies: if condition is false, dependent fields are not_applicable
     const conditionalFields = {
         "ds_datasheet_url": { condition: "Dataset datasheet", conditionSchemaKey: "ds_datasheet" },
         "pm_model_card_url": { condition: "Model card", conditionSchemaKey: "pm_model_card" },
