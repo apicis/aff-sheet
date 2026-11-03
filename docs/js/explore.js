@@ -54,7 +54,7 @@ const EXPERIMENTAL_FIRST_COLUMN_NAMES = {
     Hyperparameters: "Hyperparameters",
     Preprocessing: "Preprocessing"
 };
-const FORM_FIELD_TO_AIRTABLE = {
+const SCHEMA_FIELD_TO_FORM_LABEL = {
     model_name: "Model name",
     access_date: "Access date",
     publication_doi: "Publication DOI",
@@ -197,7 +197,7 @@ async function loadExportFieldOrder() {
             .filter(section => section.id !== "feedback")
             .flatMap(section => section.fields.map(field => field.id));
         const fields = ids
-            .map(fieldId => FORM_FIELD_TO_AIRTABLE[fieldId])
+            .map(fieldId => SCHEMA_FIELD_TO_FORM_LABEL[fieldId])
             .filter(Boolean);
 
         exportFieldOrder = [...new Set(fields)];
@@ -207,8 +207,8 @@ async function loadExportFieldOrder() {
     }
 }
 
-// Mapping from Airtable display labels to schema field names
-const AIRTABLE_TO_SCHEMA_FIELDS = {
+// Mapping from form field labels to schema field names
+const FORM_LABEL_TO_SCHEMA_FIELD = {
     "Model name": "model_name",
     "Access date": "access_date",
     "Publication DOI": "publication_doi",
@@ -242,18 +242,15 @@ const AIRTABLE_TO_SCHEMA_FIELDS = {
     "Safety": "rv_safety"
 };
 
-function convertToSchemaFormat(airtableRecord) {
+function convertToSchemaFormat(record) {
     /**
-     * Convert Airtable display format to schema-compliant format
+     * Convert record to hierarchical schema-compliant format.
      * Adds missing-value objects for:
      * - not_applicable: conditional fields whose trigger is false
      * - not_reported: missing required fields
-     * 
-     * Input: { fields: { "Model name": "...", "Data splits": [...] } }
-     * Output: { model_name: "...", es_splits_df: [...], rv_platform: { status: "not_applicable", ... } }
      */
-    const airtableFields = airtableRecord.fields || {};
-    const schemaData = {};
+    const recordFields = record.fields || {};
+    const flatSchema = {};
 
     // Conditional field dependencies: if condition is false, dependent fields are not_applicable
     const conditionalFields = {
@@ -275,61 +272,96 @@ function convertToSchemaFormat(airtableRecord) {
     ];
 
     // Convert provided fields
-    for (const [airtableLabel, airtableValue] of Object.entries(airtableFields)) {
-        const schemaKey = AIRTABLE_TO_SCHEMA_FIELDS[airtableLabel];
+    for (const [fieldLabel, fieldValue] of Object.entries(recordFields)) {
+        const schemaKey = FORM_LABEL_TO_SCHEMA_FIELD[fieldLabel];
         
         if (!schemaKey) {
             continue; // Skip unmapped fields
         }
 
         // Handle different field types
-        if (airtableLabel === "Datasets" && Array.isArray(airtableValue)) {
-            // Convert each dataset object
-            schemaData[schemaKey] = airtableValue.map(item => {
-                if (!item.fields) return item;
+        if (fieldLabel === "Datasets" && Array.isArray(fieldValue)) {
+            // Convert each dataset object, ensuring all required dataset fields are present
+            const requiredDatasetFields = ["ds_name", "ds_record_link", "ds_licence", "ds_datasheet", "ds_datasheet_url"];
+            flatSchema[schemaKey] = fieldValue.map((item, index) => {
                 const datasetObj = {};
-                for (const [dLabel, dValue] of Object.entries(item.fields)) {
-                    const dSchemaKey = AIRTABLE_TO_SCHEMA_FIELDS[dLabel];
+                const itemFields = (item && item.fields) ? item.fields : {};
+                
+                // Convert provided dataset fields
+                for (const [dLabel, dValue] of Object.entries(itemFields)) {
+                    const dSchemaKey = FORM_LABEL_TO_SCHEMA_FIELD[dLabel];
                     if (dSchemaKey) datasetObj[dSchemaKey] = dValue;
                 }
+                
+                // Add missing-value objects for missing dataset fields
+                for (const requiredField of requiredDatasetFields) {
+                    if (!(requiredField in datasetObj)) {
+                        // Check if ds_datasheet_url should be not_applicable
+                        if (requiredField === "ds_datasheet_url" && datasetObj.ds_datasheet === false) {
+                            datasetObj[requiredField] = {
+                                "status": "not_applicable",
+                                "reason": "Dataset datasheet is false, so the URL does not apply."
+                            };
+                        } else {
+                            datasetObj[requiredField] = {
+                                "status": "not_reported",
+                                "reason": "This dataset field was not provided in the submission."
+                            };
+                        }
+                    }
+                }
+                
                 return datasetObj;
             });
         } 
-        else if (airtableLabel === "Performance measures" && Array.isArray(airtableValue)) {
-            // Convert each metric object
-            schemaData[schemaKey] = airtableValue.map(item => {
-                if (!item.fields) return item;
+        else if (fieldLabel === "Performance measures" && Array.isArray(fieldValue)) {
+            // Convert each metric object, ensuring all required metric fields are present
+            const requiredMetricFields = ["perf_description", "perf_formulation", "perf_limitations"];
+            flatSchema[schemaKey] = fieldValue.map((item, index) => {
                 const metricObj = {};
-                for (const [mLabel, mValue] of Object.entries(item.fields)) {
-                    const mSchemaKey = AIRTABLE_TO_SCHEMA_FIELDS[mLabel];
+                const itemFields = (item && item.fields) ? item.fields : {};
+                
+                // Convert provided metric fields
+                for (const [mLabel, mValue] of Object.entries(itemFields)) {
+                    const mSchemaKey = FORM_LABEL_TO_SCHEMA_FIELD[mLabel];
                     if (mSchemaKey) metricObj[mSchemaKey] = mValue;
                 }
+                
+                // Add missing-value objects for missing metric fields
+                for (const requiredField of requiredMetricFields) {
+                    if (!(requiredField in metricObj)) {
+                        metricObj[requiredField] = {
+                            "status": "not_reported",
+                            "reason": "This metric field was not provided in the submission."
+                        };
+                    }
+                }
+                
                 return metricObj;
             });
         }
-        else if (["Data splits", "Hyperparameters", "Augmentations", "Preprocessing"].includes(airtableLabel)) {
-            // Convert table format: [{ fields: { "Set": "...", "Samples": "..." } }] → [["...", "..."]]
-            if (Array.isArray(airtableValue)) {
-                schemaData[schemaKey] = airtableValue
+        else if (["Data splits", "Hyperparameters", "Augmentations", "Preprocessing"].includes(fieldLabel)) {
+            // Convert table format: [{ fields: { "Set": "...", "Samples": "..." } }] → [["...", ""]]
+            if (Array.isArray(fieldValue)) {
+                flatSchema[schemaKey] = fieldValue
                     .filter(row => row && row.fields)
                     .map(row => Object.values(row.fields));
             }
         }
         else {
             // Simple value copy (may already include missing-value objects if stored)
-            schemaData[schemaKey] = airtableValue;
+            flatSchema[schemaKey] = fieldValue;
         }
     }
 
     // Add not_applicable for conditional fields whose condition is false
-    for (const [airtableLabel, condInfo] of Object.entries(conditionalFields)) {
-        const conditionValue = schemaData[condInfo.conditionSchemaKey];
+    for (const [fieldLabel, condInfo] of Object.entries(conditionalFields)) {
+        const conditionValue = flatSchema[condInfo.conditionSchemaKey];
         
         // If condition is explicitly false, dependent field must be not_applicable
         if (conditionValue === false) {
-            const fieldSchemaKey = AIRTABLE_TO_SCHEMA_FIELDS[airtableLabel];
-            if (fieldSchemaKey) {
-                schemaData[fieldSchemaKey] = {
+            if (fieldLabel) {
+                flatSchema[fieldLabel] = {
                     "status": "not_applicable",
                     "reason": `${condInfo.condition} is false, so this field does not apply.`
                 };
@@ -339,15 +371,58 @@ function convertToSchemaFormat(airtableRecord) {
 
     // Add not_reported for missing required fields
     for (const requiredField of requiredFields) {
-        if (!(requiredField in schemaData)) {
-            schemaData[requiredField] = {
+        if (!(requiredField in flatSchema)) {
+            flatSchema[requiredField] = {
                 "status": "not_reported",
                 "reason": "This field was not provided in the submission."
             };
         }
     }
 
-    return schemaData;
+    // Convert flat schema to hierarchical structure
+    const hierarchicalSchema = {
+        overview: {
+            model_name: flatSchema.model_name,
+            access_date: flatSchema.access_date,
+            publication_doi: flatSchema.publication_doi
+        },
+        formulation: {
+            aff_tasks: flatSchema.aff_tasks,
+            modalities: flatSchema.modalities,
+            aff_human_presence: flatSchema.aff_human_presence
+        },
+        datasets: {
+            datasets: flatSchema.datasets
+        },
+        method: {
+            pm_record_link: flatSchema.pm_record_link,
+            pm_code_link: flatSchema.pm_code_link,
+            pm_weights_license: flatSchema.pm_weights_license,
+            pm_code_license: flatSchema.pm_code_license,
+            pm_model_card: flatSchema.pm_model_card,
+            pm_model_card_url: flatSchema.pm_model_card_url
+        },
+        setup: {
+            es_splits_df: flatSchema.es_splits_df,
+            es_hp_df: flatSchema.es_hp_df,
+            es_augmentations_df: flatSchema.es_augmentations_df,
+            es_resize: flatSchema.es_resize
+        },
+        measures: {
+            evaluation: flatSchema.evaluation
+        },
+        validation: {
+            rv_deployment: flatSchema.rv_deployment,
+            rv_platform: flatSchema.rv_platform,
+            rv_end_effector: flatSchema.rv_end_effector,
+            rv_setup: flatSchema.rv_setup,
+            rv_generalisation: flatSchema.rv_generalisation,
+            rv_robustness: flatSchema.rv_robustness,
+            rv_safety: flatSchema.rv_safety
+        }
+    };
+
+    return hierarchicalSchema;
 }
 
 function exportRecord(record) {
@@ -804,7 +879,7 @@ async function loadCatalogue() {
         const result = await response.json();
         if (!response.ok || !result.success) {
             if (response.status === 403) {
-                throw new Error("This preview origin is not authorized by the catalogue Worker.");
+                throw new Error("This preview origin is not authorized by the catalogue service.");
             }
 
             if (response.status === 500) {
@@ -812,11 +887,7 @@ async function loadCatalogue() {
                     throw new Error(`${result.error}: ${result.issues.join("; ")}`);
                 }
 
-                throw new Error("The catalogue Worker is not configured or has not been deployed with the catalogue route.");
-            }
-
-            if (response.status === 502) {
-                throw new Error("The catalogue Worker could not read the Airtable records. Check its Worker logs and Airtable table permissions.");
+                throw new Error("The catalogue service is not configured or not available.");
             }
 
             throw new Error(result.error || "Catalogue request failed");
