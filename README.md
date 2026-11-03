@@ -37,6 +37,42 @@ The submission form is driven by the YAML schema in `docs/config/fields.yaml`. T
 
 This makes it easy to adjust the questionnaire without rewriting the page structure.
 
+## Downloading Sheets
+
+The exploration page (`explore.html`) allows users to download affordance sheets in schema-compliant JSON format.
+
+### Single Sheet Download
+Click the download button on any affordance sheet card to get a JSON file with that single entry.
+
+**Structure:**
+```json
+{
+  "model_name": "METHOD_NAME",
+  "access_date": "DD/MM/YYYY",
+  "publication_doi": "URL",
+  "aff_tasks": ["TASK1, TASK2,..."],
+  "modalities": ["MODALITY1, MODALITY2, ..."],
+  ...
+}
+```
+
+ **Missing-value objects:** Used when data is unavailable
+  - `{ "status": "not_reported", "reason": "..." }` - field was not submitted
+  - `{ "status": "not_applicable", "reason": "..." }` - field doesn't apply (e.g., robot_platform when rv_deployment is false)
+  - `{ "status": "unknown", "reason": "..." }` - value is ambiguous or conflicting
+
+### Batch Download (All Sheets)
+Click the "Download" button in the toolbar to download all currently displayed sheets as a JSON array.
+
+**Structure:**
+```json
+[
+  { "model_name": "Method1", ... },
+  { "model_name": "Method2", ... }
+]
+```
+
+
 ## Editing the form
 
 To change the questionnaire fields:
